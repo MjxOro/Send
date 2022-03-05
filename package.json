@@ -1,0 +1,17 @@
+{
+  "name": "send",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:MjxOro/send.git",
+  "author": "Matthew Oro <MatthewEOro@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "yarn --cwd server start",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn  --cwd client && yarn --cwd server && yarn --cwd client build && yarn --cwd server build",
+    "local": "yarn  --cwd client && yarn --cwd server && yarn --cwd client build && yarn --cwd server build"
+  },
+  "engines": {
+    "node": "17.0.1",
+    "yarn": "1.22.11"
+  }
+}
