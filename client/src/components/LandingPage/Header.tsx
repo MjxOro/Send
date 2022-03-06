@@ -8,7 +8,7 @@ const Menu = () => {
   const handleClick = () => {
     useStore.setState({ exitThree: true });
     setTimeout(() => {
-      window.location.href = 'https://google.com';
+      window.location.href = `${process.env.REACT_APP_API_HOST}/auth/google`;
     }, 1000); // 1second on closing sidebar + 1 second on plane animation + 1 second exitAnimation
   };
   return (
@@ -29,7 +29,7 @@ const Header = () => {
     useStore.setState({ showSidebar: false });
     setTimeout(() => useStore.setState({ exitThree: true }), 1000);
     setTimeout(() => {
-      window.location.href = 'https://google.com';
+      window.location.href = `${process.env.REACT_APP_API_HOST}/auth/google`;
     }, 3000); // 1second on closing sidebar + 1 second on plane animation + 1 second exitAnimation
   };
   const left = false;
