@@ -1,26 +1,16 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import LandingPage from './components/LandingPage/LandingPage';
+import { Switch, Route } from 'wouter';
+import Body from './components/LandingPage/Body';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Switch>
+        <Route path="/" component={LandingPage} />
+        <Route path="/next" component={Body} />
+      </Switch>
+    </>
   );
-}
-
+};
 export default App;
