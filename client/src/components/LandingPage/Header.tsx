@@ -1,6 +1,6 @@
 import useStore from '../../utils/store';
 import Burger from '../BurgerMenu/BurgerMenu';
-import { SidebarDom } from '../Sidebar';
+import { SidebarDom } from '../Sidebar/Sidebar';
 import { motion } from 'framer-motion';
 import useWindowSize from '../../utils/viewport';
 

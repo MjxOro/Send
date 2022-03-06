@@ -1,11 +1,11 @@
 import { Suspense } from 'react';
 import CanvasLayout from '../Layout/CanvasLayout/CanvasLayout';
-import { Html, Stars } from '@react-three/drei';
+import { Stars } from '@react-three/drei';
 import Background from './Background';
 import useStore from '../../utils/store';
 import { useSpring } from '@react-spring/three';
 import PaperPlane from '../GLTFModles/Paper_Plane/PaperPlane';
-import Sidebar from '../Sidebar';
+import Sidebar from '../Sidebar/Sidebar';
 import Body from './Body';
 import ExitAnimation from '../Layout/ExitAnimation/ExitAnimation';
 
