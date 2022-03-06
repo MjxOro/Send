@@ -1,7 +1,15 @@
 module.exports = {
-  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  content: [
+    './src/**/*.{js,jsx,ts,tsx}',
+    './src/**/**/*.{js,jsx,ts,tsx}',
+    './src/**/**/**/*.{js,jsx,ts,tsx}'
+  ],
   theme: {
-    extend: {}
+    extend: {
+      screens:{
+        'lg': '1025px'
+      }
+    }
   },
   plugins: []
-    
+};

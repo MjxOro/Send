@@ -33,7 +33,8 @@ app.use(express.json());
 app.use(
   morgan((process.env.NODE_ENV as string) === 'production' ? 'combined' : 'dev')
 );
-if ((process.env.NODE_ENV as string) !== 'production') {
+
+if ((process.env.NODE_ENV as string) === 'production') {
   // Handle React routing, return all requests to React app
   app.use(express.static(path.join(__dirname, '..', '..', 'client', 'out')));
   app.get('*', (_: Request, res: Response) => {
