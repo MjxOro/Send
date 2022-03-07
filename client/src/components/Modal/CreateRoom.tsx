@@ -68,7 +68,7 @@ const CreateRoom = () => {
     useCreateRoomState.setState({ fileLoading: true });
     const { data } = await axios({
       method: 'post',
-      url: `${process.env.REACT_APP_API_HOST as string}/roomPhoto`,
+      url: `${process.env.REACT_APP_API_HOST as string}/api/roomPhoto`,
       data: form,
       headers: {
         'Content-Type': 'multipart/form-data'

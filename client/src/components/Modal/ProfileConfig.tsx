@@ -67,7 +67,7 @@ const ProfileConfig = () => {
     useStore.setState({ fileLoading: true });
     const { data } = await axios({
       method: 'put',
-      url: `${process.env.REACT_APP_API_HOST as string}/userUpdate/${String(
+      url: `${process.env.REACT_APP_API_HOST as string}/api/userUpdate/${String(
         currentUser._id
       )}`,
       data: form,

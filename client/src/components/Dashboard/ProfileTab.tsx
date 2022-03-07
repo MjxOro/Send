@@ -19,7 +19,7 @@ const ProfileTab = () => {
   const handleLogout = async () => {
     try {
       await axios.post(
-        `${process.env.REACT_APP_API_HOST}/logout`,
+        `${process.env.REACT_APP_API_HOST}/api/logout`,
         currentUser,
         { withCredentials: true }
       );

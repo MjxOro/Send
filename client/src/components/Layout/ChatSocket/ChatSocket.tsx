@@ -37,7 +37,6 @@ const ChatSocket = ({ children }: { children: ReactNode }) => {
     getUsers();
     useChatSocket.setState({ socket: socket });
     //Connect
-    console.log('POGNERS');
     socket.emit(EVENTS.CLIENT.MY_ROOMS, { currentUser });
     socket.emit(EVENTS.CLIENT.ONLINE, { currentUser });
     socket.on(EVENTS.SERVER.JOINED_ROOM, ({ roomId, user, title }) => {

@@ -19,7 +19,6 @@ const Body = () => {
   };
   const width: any = useWindowSize();
   const mobile = width <= 1024;
-  console.log(mobile);
 
   return (
     <Html fullscreen>

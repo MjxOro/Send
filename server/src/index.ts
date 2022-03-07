@@ -37,9 +37,8 @@ app.use(
 
 app.use(cookieParser());
 app.use('/auth', auth);
-app.use(checkSession);
-app.use(dashboard);
-app.use(upload);
+app.use('/api', checkSession, dashboard);
+app.use('/api', checkSession, upload);
 if ((process.env.NODE_ENV as string) === 'production') {
   // Handle React routing, return all requests to React app
   app.use(express.static(path.join(__dirname, '..', '..', 'client', 'build')));

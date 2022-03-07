@@ -79,7 +79,7 @@ export const useChatSocket = create<IChatSocket>((set) => ({
   getUsers: async () => {
     try {
       const res = await axios.get(
-        `${process.env.REACT_APP_API_HOST as string}/userQuery`,
+        `${process.env.REACT_APP_API_HOST as string}/api/userQuery`,
         {
           withCredentials: true
         }
@@ -99,7 +99,7 @@ export const useChatSocket = create<IChatSocket>((set) => ({
         return;
       }
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API_HOST as string}/myRooms/${String(
+        `${process.env.REACT_APP_API_HOST as string}/api/myRooms/${String(
           currentUser._id
         )}`,
         {
