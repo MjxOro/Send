@@ -124,10 +124,7 @@ const Chat = () => {
                     top: largeScreen
                       ? `${index * 20 + 5}vh`
                       : `${index * 20 + 10}vh`,
-                    left: largeScreen
-                      ? `${size.width * 0.425}px` //45vw
-                      : //: `${size.width * 0.25}px`,
-                        0
+                    left: largeScreen ? `${size.width * 0.425}px` : 0 //`${size.width * 0.25}px`
                   }}
                   className={
                     String(message.sender) === String(currentUser._id)

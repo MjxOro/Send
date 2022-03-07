@@ -25,12 +25,13 @@ const Dashboard = () => {
   const { currentUser, isLoading } = useAuth();
   const showLoader = fileLoading || updateProfile;
 
+  console.log(messages);
   const width = useWindowSize();
   const largeScreen = width > 1024;
   const mobileMenu =
     !largeScreen && !currentRoomName && !largeScreen && !showProfile;
   const mobileChat =
-    (!largeScreen && currentRoomName) || (!largeScreen && showProfile);
+    (!largeScreen && currentRoomName) || (!largeScreen && !showProfile);
 
   return (
     <ExitAnimation>
@@ -43,22 +44,24 @@ const Dashboard = () => {
             <Modal state={showModal}>
               {!modalOptions ? <FindMembers /> : <CreateRoom />}
             </Modal>
-            <Html
-              position={[0, 0, -5]}
-              fullscreen
-              className={'h-screen bg-[#301860]'}
-              style={{
-                width: largeScreen ? '30vw' : '100vw',
-                opacity:
-                  fileLoading || (largeScreen && showProfile) || updateProfile
-                    ? 0
-                    : 1
-              }}
-            >
-              <AnimatePresence>
-                {(mobileMenu || largeScreen) && <ChatMenu />}
-              </AnimatePresence>
-            </Html>
+            {(mobileMenu || largeScreen) && (
+              <Html
+                position={[0, 0, -5]}
+                fullscreen
+                className={'h-screen bg-[#301860]'}
+                style={{
+                  width: largeScreen ? '30vw' : '100vw',
+                  opacity:
+                    fileLoading || (largeScreen && showProfile) || updateProfile
+                      ? 0
+                      : 1
+                }}
+              >
+                <AnimatePresence>
+                  {(mobileMenu || largeScreen) && <ChatMenu />}
+                </AnimatePresence>
+              </Html>
+            )}
             {(mobileChat || largeScreen) && (
               <ScrollControls
                 damping={100}
