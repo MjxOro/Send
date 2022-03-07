@@ -12,7 +12,9 @@ const Body = () => {
     e.preventDefault();
     useStore.setState({ exitThree: true });
     setTimeout(() => {
-      window.location.href = `${process.env.REACT_APP_API_HOST}/auth/google`;
+      window.location.href = `${
+        process.env.REACT_APP_API_HOST as string
+      }/auth/google`;
     }, 1000);
   };
   const width: any = useWindowSize();
