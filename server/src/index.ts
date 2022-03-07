@@ -24,7 +24,8 @@ const app: Express = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: process.env.CORSORIGIN as string
+    origin: process.env.CORSORIGIN as string,
+    credentials: true
   }
 });
 

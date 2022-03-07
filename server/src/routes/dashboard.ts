@@ -30,7 +30,7 @@ router.post('/logout', async (req: Request, res: Response) => {
   try {
     const { sessionId } = req.body;
     const session: any = await Sessions.findOneAndUpdate(
-      { _id: sessionId },
+      { _id: String(sessionId) },
       {
         valid: false
       }

@@ -22,6 +22,7 @@ interface IGoogleUserResult {
   locale: string;
 }
 export const googleOauthLink = (req: Request, res: Response): void => {
+  //Function creates a gogle oauth link that would store the user's google profile when authenticated.
   const url = 'https://accounts.google.com/o/oauth2/v2/auth';
   const options = {
     redirect_uri: process.env.GOOGLE_REDIRECT as string,
@@ -43,6 +44,7 @@ const getGoogleOauthTokens = async ({
 }: {
   code: string;
 }): Promise<IGoogleTokensResult> => {
+  // When the user Authenticates,This function  recieves a token which stores the user's google profile.
   const url = 'https://oauth2.googleapis.com/token';
   const options = {
     code: code,
@@ -71,6 +73,7 @@ const getGoogleUser = async ({
   id_token: string;
   access_token: string;
 }): Promise<IGoogleUserResult> => {
+  //Function deserializes the token and returns google profile in JSON format.
   const url = `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${access_token}`;
   try {
     const res = await axios.get(url, {
@@ -88,25 +91,35 @@ export const googleOauthHander = async (
   res: Response
 ): Promise<any> => {
   try {
+    // OAUTH Flow
     const code = req.query.code as string;
     const { id_token, access_token } = await getGoogleOauthTokens({ code });
     const googleUser = await getGoogleUser({ id_token, access_token });
     // add User to db
-    const checkUser = await User.find({ email: googleUser.email }).lean();
+    const checkUser = await User.findOne({ email: googleUser.email }).lean();
     if (!checkUser) {
+      console.log('pogners');
       const newUser = new User({
         googleId: googleUser.id,
         email: googleUser.email,
         name: googleUser.name,
         avatar: googleUser.picture
       });
-      newUser.save();
+      await newUser.save();
+      const getUser: IUser = await User.findOne({
+        email: googleUser.email
+      }).lean();
+      const newSession = new Session({
+        userId: String(getUser._id),
+        valid: true
+      });
+      await newSession.save();
     }
     const user: IUser = await User.findOne({ email: googleUser.email }).lean();
     // create session
     const newSession = await Session.findOneAndUpdate(
-      { userId: user._id },
-      { userId: user._id, valid: true },
+      { userId: String(user._id) },
+      { valid: true },
       {
         upsert: true,
         new: true
@@ -114,29 +127,29 @@ export const googleOauthHander = async (
     ).lean();
     //create access_token and refresh_tokens for the session
     const accessToken = jwt.sign(
-      { ...user, sessionId: newSession._id },
+      { ...user, sessionId: String(newSession._id) },
       process.env.JWT_SECRET as string,
       {
-        expiresIn: '1h' // 1 hour
+        expiresIn: 3600000 // 1 hour (MiliSeconds)
       }
     );
     const refreshToken = jwt.sign(
-      { ...user, sessionId: newSession._id },
+      { ...user, sessionId: String(newSession._id) },
       process.env.JWT_SECRET as string,
-      { expiresIn: 31536000 } // 1 year
+      { expiresIn: 60480000 } // 1 week (MiliSeconds)
     );
 
     res.cookie('access_token', accessToken, {
-      maxAge: 900000, // 15 mins
+      maxAge: 3600000, // 1 hour (MiliSeconds)
       httpOnly: true,
-      domain: process.env.DOMAIN as string,
+      domain: (process.env.DOMAIN as string) === 'localhost' ? '' : 'localhost',
       sameSite: 'lax',
       secure: (process.env.NODE_ENV as string) === 'production'
     });
     res.cookie('refresh_token', refreshToken, {
-      maxAge: 31536000, // 15 mins
+      maxAge: 60480000, // 1 Week (MiliSeconds)
       httpOnly: true,
-      domain: process.env.DOMAIN as string,
+      domain: (process.env.DOMAIN as string) === 'localhost' ? '' : 'localhost',
       sameSite: 'lax',
       secure: (process.env.NODE_ENV as string) === 'production'
     });

@@ -14,6 +14,7 @@ export interface IStore {
   files?: File | null;
   fileLoading: boolean;
   tempView: string | undefined;
+  tempState: boolean;
 }
 export const useStore = create<IStore>((set) => ({
   viewportWidth: window.innerWidth,
@@ -26,7 +27,8 @@ export const useStore = create<IStore>((set) => ({
   newName: '',
   files: null,
   fileLoading: false,
-  tempView: undefined
+  tempView: undefined,
+  tempState: false
 }));
 
 interface IStoreAuth {
@@ -40,7 +42,7 @@ export const useAuth = create<IStoreAuth>((set) => ({
   getAuth: async () => {
     try {
       const res: any = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_HOST as string}/auth/getUser`,
+        `${process.env.REACT_APP_API_HOST as string}/auth/getUser`,
         {
           withCredentials: true
         }
@@ -77,7 +79,7 @@ export const useChatSocket = create<IChatSocket>((set) => ({
   getUsers: async () => {
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_HOST as string}/userQuery`,
+        `${process.env.REACT_APP_API_HOST as string}/userQuery`,
         {
           withCredentials: true
         }
@@ -97,7 +99,7 @@ export const useChatSocket = create<IChatSocket>((set) => ({
         return;
       }
       const { data } = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_HOST as string}/myRooms/${String(
+        `${process.env.REACT_APP_API_HOST as string}/myRooms/${String(
           currentUser._id
         )}`,
         {
