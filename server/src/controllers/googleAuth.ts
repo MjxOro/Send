@@ -142,14 +142,14 @@ export const googleOauthHander = async (
     res.cookie('access_token', accessToken, {
       maxAge: 3600000, // 1 hour (MiliSeconds)
       httpOnly: true,
-      domain: (process.env.DOMAIN as string) === 'localhost' ? '' : 'localhost',
+      domain: (process.env.DOMAIN as string) !== 'localhost' ? '' : 'localhost',
       sameSite: 'lax',
       secure: (process.env.NODE_ENV as string) === 'production'
     });
     res.cookie('refresh_token', refreshToken, {
       maxAge: 60480000, // 1 Week (MiliSeconds)
       httpOnly: true,
-      domain: (process.env.DOMAIN as string) === 'localhost' ? '' : 'localhost',
+      domain: (process.env.DOMAIN as string) !== 'localhost' ? '' : 'localhost',
       sameSite: 'lax',
       secure: (process.env.NODE_ENV as string) === 'production'
     });

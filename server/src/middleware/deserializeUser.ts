@@ -47,7 +47,7 @@ const deserializeUser = async (
     res.cookie('access_token', newAccessToken, {
       maxAge: 3600000, // 1 hour
       httpOnly: true,
-      domain: (process.env.DOMAIN as string) === 'localhost' ? '' : 'localhost',
+      domain: (process.env.DOMAIN as string) !== 'localhost' ? '' : 'localhost',
       sameSite: 'lax',
       secure: false
     });
