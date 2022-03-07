@@ -1,15 +1,14 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useThree } from '@react-three/fiber';
 import { MeshWobbleMaterial, Scroll, Html } from '@react-three/drei';
 import { a, easings, useSpring } from '@react-spring/three';
-import useStore from '../utils/store';
+import useStore from '../../utils/store';
 //import { EVENTS } from '../Layout/ChatSocket';
 
 export const SidebarDom = ({
   state,
   fullscreen,
-  left,
   center,
   children
 }: {
@@ -33,22 +32,27 @@ export const SidebarDom = ({
     </AnimatePresence>
   );
 };
-export const Sidebar = ({ state, left }: { state: any; left?: boolean }) => {
+export const Sidebar = ({
+  state,
+  left
+}: {
+  state: boolean;
+  left?: boolean;
+}) => {
   const { width, height } = useThree((s) => s.viewport);
   const startLeft = [
     { position: state ? [-width * 0.55, 0, 4] : null },
     { position: state ? [0, 0, 4] : null },
     { position: !state ? [-width, 0, 4] : null }
   ];
+  const startRight = [
+    { position: state ? [width * 0.55, 0, 4] : null },
+    { position: state ? [0, 0, 4] : null },
+    { position: !state ? [width, 0, 4] : null }
+  ];
   const springs: any = useSpring({
     from: { position: left ? [-width, 0, 4] : [width, 0, 4] },
-    to: left
-      ? startLeft
-      : [
-          { position: state ? [width * 0.55, 0, 4] : null },
-          { position: state ? [0, 0, 4] : null },
-          { position: !state ? [width, 0, 4] : null }
-        ],
+    to: left ? startLeft : startRight,
     config: {
       duration: 800,
       easing: easings.easeInOutExpo
