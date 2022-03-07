@@ -1,4 +1,4 @@
-import { Suspense, useEffect } from 'react';
+import { Suspense } from 'react';
 import CanvasLayout from '../Layout/CanvasLayout/CanvasLayout';
 import { Stars } from '@react-three/drei';
 import Background from './Background';

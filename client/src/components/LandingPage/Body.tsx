@@ -1,5 +1,4 @@
-import React, { MouseEvent } from 'react';
-import { useLocation } from 'wouter';
+import { MouseEvent } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import Header from './Header';
 import { Html } from '@react-three/drei';
@@ -8,8 +7,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import useWindowSize from '../../utils/viewport';
 
 const Body = () => {
-  const [_, setLocation] = useLocation();
-  const { showSidebar, exitThree } = useStore();
+  const { showSidebar } = useStore();
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     useStore.setState({ exitThree: true });
