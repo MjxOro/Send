@@ -35,6 +35,11 @@ app.use(
   morgan((process.env.NODE_ENV as string) === 'production' ? 'combined' : 'dev')
 );
 
+app.use(cookieParser());
+app.use('/auth', auth);
+app.use(checkSession);
+app.use(dashboard);
+app.use(upload);
 if ((process.env.NODE_ENV as string) === 'production') {
   // Handle React routing, return all requests to React app
   app.use(express.static(path.join(__dirname, '..', '..', 'client', 'build')));
@@ -44,11 +49,6 @@ if ((process.env.NODE_ENV as string) === 'production') {
     );
   });
 }
-app.use(cookieParser());
-app.use('/auth', auth);
-app.use(checkSession);
-app.use(dashboard);
-app.use(upload);
 
 //Server ports
 httpServer.listen(PORT, async () => {
