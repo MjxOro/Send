@@ -7,7 +7,6 @@ Demo the site [here](https://send-messaging-app.herokuapp.com/)
 
 - Typescript
 - React
-- Nextjs
 - Node/Express
 - MongoDB
 - Socket.io
@@ -21,3 +20,4 @@ Demo the site [here](https://send-messaging-app.herokuapp.com/)
 - Nextjs
 - Zustand (React state manager)
 - Typescript
+- wouter (Light-weight React router)
