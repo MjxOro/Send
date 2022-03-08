@@ -31,7 +31,7 @@ const FindMembers = () => {
     }
   };
   const handleAddMembers = (e: MouseEvent<HTMLDivElement>) => {
-    if (members.length > 0) {
+    if (members.length < 1) {
       useCreateRoomState.setState({ queryUser: [...allUsers] });
     }
     const choice = {
@@ -75,7 +75,11 @@ const FindMembers = () => {
         <header className="flex items-center justify-between p-4">
           <button
             onClick={() =>
-              useCreateRoomState.setState({ showModal: false, members: [] })
+              useCreateRoomState.setState({
+                showModal: false,
+                members: [],
+                queryUser: []
+              })
             }
             className="rounded  bg-transparent py-2 px-4 font-semibold text-blue-700 hover:border-transparent hover:bg-blue-500 hover:text-white"
           >
