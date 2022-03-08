@@ -1,7 +1,7 @@
 import { Server, Socket } from 'socket.io';
 import mongoose from 'mongoose';
 import Room from '../models/Room';
-import User from '../models/User';
+import User, { IUser } from '../models/User';
 import Member from '../models/Member';
 import Message from '../models/Message';
 
@@ -14,7 +14,9 @@ const EVENTS = {
     JOINING_ROOM: 'JOINING_ROOM',
     SEND_ROOM_MESSAGE: 'SEND_ROOM_MESSAGE',
     MY_ROOMS: 'MY_ROOMS',
-    DISCONNECT: 'DISCONNECT'
+    DISCONNECT: 'DISCONNECT',
+    PROFILE: 'PROFILE',
+    OFFLINE: 'OFFLINE'
   },
   SERVER: {
     ROOMS: 'ROOMS',
@@ -22,7 +24,10 @@ const EVENTS = {
     ROOM_MESSAGE: 'ROOM_MESSAGE',
     SERVER_INIT: 'SERVER_INIT',
     MY_ROOMS: 'MY_ROOMS',
-    UPDATE_ROOMS: 'UPDATE_ROOMS'
+    UPDATE_ROOMS: 'UPDATE_ROOMS',
+    PROFILE: 'PROFILE',
+    AWAY: 'AWAY',
+    ONLINE: 'ONLINE'
   }
 };
 const socket = ({ io }: { io: Server }) => {
@@ -77,17 +82,32 @@ const socket = ({ io }: { io: Server }) => {
         }
       }
     );
+    //Room Status ============================
     //Set Status of user
     socket.on(EVENTS.CLIENT.ONLINE, async ({ currentUser }) => {
       if (currentUser) {
         //add types to this
-        const setStatus: any = await User.findOneAndUpdate(
+        await User.findOneAndUpdate(
           { _id: String(currentUser._id) },
           { status: 'online' }
         );
-        setStatus ? await setStatus.save() : null;
       }
+      const updateStatus = await User.findOne({ _id: String(currentUser._id) });
+      socket.emit(EVENTS.SERVER.ONLINE, { updateStatus });
     });
+    socket.on(EVENTS.CLIENT.AWAY, async ({ currentUser }) => {
+      if (currentUser) {
+        await User.findOneAndUpdate(
+          { _id: String(currentUser._id) },
+          { status: 'away' }
+        );
+      }
+      const updateStatus = await User.findOne({
+        _id: String(currentUser._id)
+      }).lean();
+      socket.emit(EVENTS.SERVER.AWAY, { updateStatus });
+    });
+    //=============================================
     //Get chat room current user has
     socket.on(EVENTS.CLIENT.MY_ROOMS, async ({ currentUser }) => {
       if (currentUser) {

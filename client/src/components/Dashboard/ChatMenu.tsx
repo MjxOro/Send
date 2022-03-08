@@ -14,7 +14,7 @@ import { motion } from 'framer-motion';
 
 const ChatRooms = ({ myRooms }: any) => {
   const { socket, currentRoom } = useChatSocket();
-  const { chatSearch, showProfile } = useStore();
+  const { chatSearch } = useStore();
   const { currentUser } = useAuth();
   const handleJoin = (e: MouseEvent<HTMLDivElement>) => {
     useChatSocket.setState({ currentRoomName: e.currentTarget.innerText });

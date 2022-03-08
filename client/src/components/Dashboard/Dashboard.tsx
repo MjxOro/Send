@@ -17,21 +17,25 @@ import ProfileTab from './ProfileTab';
 import LoadingAnimation from './LoadingAnimation';
 import { Html } from '@react-three/drei';
 import { AnimatePresence } from 'framer-motion';
+import { useEffect } from 'react';
+import idleTimer from '../../utils/idleTimer';
 
 const Dashboard = () => {
-  const { messages, currentRoomName } = useChatSocket();
+  const { messages, currentRoomName, socket, status }: any = useChatSocket();
   const { modalOptions, showModal, fileLoading } = useCreateRoomState();
   const { showProfile, fileLoading: updateProfile } = useStore();
   const { currentUser, isLoading } = useAuth();
   const showLoader = fileLoading || updateProfile;
 
-  console.log(messages);
   const width = useWindowSize();
   const largeScreen = width > 1024;
   const mobileMenu =
     !largeScreen && !currentRoomName && !largeScreen && !showProfile;
   const mobileChat =
     (!largeScreen && currentRoomName) || (!largeScreen && !showProfile);
+  useEffect(() => {
+    socket && idleTimer({ socket, currentUser, status });
+  }, [status, socket]);
 
   return (
     <ExitAnimation>

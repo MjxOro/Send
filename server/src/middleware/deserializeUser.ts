@@ -57,6 +57,8 @@ const deserializeUser = async (
     );
     res.locals.currentUser = decode;
     return next();
+  } else if (!accessToken && !refreshToken && res.locals) {
+    return next();
   } else if (!accessToken && !refreshToken) {
     //Return to login page when there are no tokens
     console.log('NOT AUTH');

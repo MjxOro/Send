@@ -1,12 +1,13 @@
 import { ChangeEvent } from 'react';
 import axios from 'axios';
-import { useAuth, useStore } from '../../utils/store';
+import { useAuth, useChatSocket, useStore } from '../../utils/store';
 import Resizer from 'react-image-file-resizer';
 import { AiOutlinePicture } from 'react-icons/ai';
+import { EVENTS } from '../Layout/ChatSocket/ChatSocket';
 
 const ProfileConfig = () => {
   const { newName, files, tempView } = useStore();
-  const { currentUser } = useAuth();
+  const { currentUser, getAuth } = useAuth();
   const resizeFile = (file: File) =>
     new Promise((resolve) => {
       Resizer.imageFileResizer(
@@ -85,6 +86,8 @@ const ProfileConfig = () => {
           useStore.setState({ fileLoading: false });
         }, 1000);
 
+    //Send update
+    getAuth();
     //reset form
     useStore.setState({
       newName: '',

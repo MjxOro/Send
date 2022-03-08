@@ -66,10 +66,12 @@ export interface IChatSocket {
   getUsers: () => void;
   getMyRooms: ({ currentUser }: any) => void;
   currentRoomName: string;
+  status: string;
 }
 
 export const useChatSocket = create<IChatSocket>((set) => ({
   myRooms: [],
+  status: 'offline',
   currentRoom: '',
   currentRoomName: '',
   messages: [],

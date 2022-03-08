@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
-import User from '../models/User';
+import User, { IUser } from '../models/User';
 import Member from '../models/Member';
-import Sessions from '../models/Sessions';
+import Sessions, { ISessions } from '../models/Sessions';
 
 const router = express.Router();
 
@@ -25,16 +25,28 @@ router.get('/myRooms/:id', async (req: Request, res: Response) => {
     return res.sendStatus(403);
   }
 });
-
+router.put('/offline', async (req: Request, res: Response) => {
+  try {
+    const userId = req.body._id;
+    await User.findOneAndUpdate(
+      { _id: String(userId) },
+      { status: 'offline' }
+    ).lean();
+    return res.sendStatus(200);
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(401);
+  }
+});
 router.post('/logout', async (req: Request, res: Response) => {
   try {
     const { sessionId } = req.body;
-    const session: any = await Sessions.findOneAndUpdate(
+    const session: ISessions = await Sessions.findOneAndUpdate(
       { _id: String(sessionId) },
       {
         valid: false
       }
-    );
+    ).lean();
     await session.save();
     res.clearCookie('access_token');
     res.clearCookie('refresh_token');

@@ -1,6 +1,6 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
-import auth from './routes/auth';
+import oauth from './routes/auth';
 import mongoose from 'mongoose';
 import checkSession from './middleware/deserializeUser';
 import cookieParser from 'cookie-parser';
@@ -36,7 +36,7 @@ app.use(
 );
 
 app.use(cookieParser());
-app.use('/auth', auth);
+app.use('/auth', oauth);
 app.use('/api', checkSession, dashboard);
 app.use('/api', checkSession, upload);
 if ((process.env.NODE_ENV as string) === 'production') {
