@@ -6,7 +6,7 @@ import { AiOutlineSearch } from 'react-icons/ai';
 const FindMembers = () => {
   const [query, setQuery] = useState<string>('');
   const { allUsers } = useChatSocket();
-  const { queryUser } = useCreateRoomState();
+  const { queryUser, members } = useCreateRoomState();
   const roomMembers = useCreateRoomState((s) => s.members);
   const currentUser = useAuth((s) => s.currentUser);
   const search = (e: ChangeEvent<HTMLInputElement>) => {
@@ -31,6 +31,9 @@ const FindMembers = () => {
     }
   };
   const handleAddMembers = (e: MouseEvent<HTMLDivElement>) => {
+    if (members.length > 0) {
+      useCreateRoomState.setState({ queryUser: [...allUsers] });
+    }
     const choice = {
       name: e.currentTarget.innerText,
       id: e.currentTarget.id
@@ -38,7 +41,7 @@ const FindMembers = () => {
     useCreateRoomState.setState({
       members: [...roomMembers, choice]
     });
-    const arr = allUsers.filter(
+    const arr = queryUser.filter(
       (
         item: any //types from db
       ) =>
