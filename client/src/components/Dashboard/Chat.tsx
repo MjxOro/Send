@@ -76,7 +76,7 @@ const Chat = () => {
           />
         )}
       </Html>
-      {!largeScreen && (
+      {!largeScreen && currentRoomName && (
         <Html
           className=" h-[10vh] w-[100vw] bg-[#483078] p-4 text-[#ffffff] lg:w-[70vw]"
           center
