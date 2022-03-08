@@ -2,7 +2,7 @@
 
 🚧 Under Development 🚧 <br/>
 Demo the site [here](https://send-messaging-app.herokuapp.com/)<br/>
-Mobile Currently not working
+
 
 ## Technology Used ⚛
 
