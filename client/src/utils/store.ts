@@ -109,10 +109,9 @@ export const useChatSocket = create<IChatSocket>((set) => ({
         }
       );
       set({ myRooms: data });
-      console.log(data);
       return;
     } catch (e) {
-      set({ myRooms: [] });
+      set({ myRooms: null });
     }
   }
 }));

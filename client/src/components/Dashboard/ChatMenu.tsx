@@ -51,7 +51,7 @@ const ChatRooms = ({ myRooms }: any) => {
                 onClick={handleJoin}
               >
                 <div className="flex w-full max-w-[64px] justify-center lg:max-w-[full]">
-                  <Avatar height={'h-16'} width={'w-16'} src={room.roomPhoto} />
+                  <Avatar height={'h-16'} width={'w-16'} src={room.picture} />
                 </div>
                 <section
                   className="flex max-h-full w-full 
