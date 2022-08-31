@@ -48,6 +48,7 @@ router.post("/logout", async (req: Request, res: Response) => {
     await session.save();
     res.clearCookie("access_token");
     res.clearCookie("refresh_token");
+    res.end();
     return res.sendStatus(201);
   } catch (e) {
     return res.sendStatus(403);
