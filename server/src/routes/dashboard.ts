@@ -1,11 +1,11 @@
-import express, { Request, Response } from 'express';
-import User, { IUser } from '../models/User';
-import Member from '../models/Member';
-import Sessions, { ISessions } from '../models/Sessions';
+import express, { Request, Response } from "express";
+import User, { IUser } from "../models/User";
+import Member from "../models/Member";
+import Sessions, { ISessions } from "../models/Sessions";
 
 const router = express.Router();
 
-router.get('/userQuery', async (_: Request, res: Response) => {
+router.get("/userQuery", async (_: Request, res: Response) => {
   try {
     const users = await User.find({});
     return res.status(200).json(users);
@@ -14,7 +14,7 @@ router.get('/userQuery', async (_: Request, res: Response) => {
   }
 });
 
-router.get('/myRooms/:id', async (req: Request, res: Response) => {
+router.get("/myRooms/:id", async (req: Request, res: Response) => {
   try {
     if (!req.params.id) {
       return res.sendStatus(403);
@@ -25,12 +25,12 @@ router.get('/myRooms/:id', async (req: Request, res: Response) => {
     return res.sendStatus(403);
   }
 });
-router.put('/offline', async (req: Request, res: Response) => {
+router.put("/offline", async (req: Request, res: Response) => {
   try {
     const userId = req.body._id;
     await User.findOneAndUpdate(
       { _id: String(userId) },
-      { status: 'offline' }
+      { status: "offline" }
     ).lean();
     return res.sendStatus(200);
   } catch (e) {
@@ -38,18 +38,16 @@ router.put('/offline', async (req: Request, res: Response) => {
     return res.sendStatus(401);
   }
 });
-router.post('/logout', async (req: Request, res: Response) => {
+router.post("/logout", async (req: Request, res: Response) => {
   try {
-    const { sessionId } = req.body;
+    const userId = req.body._id;
     const session: ISessions = await Sessions.findOneAndUpdate(
-      { _id: String(sessionId) },
-      {
-        valid: false
-      }
+      { _id: String(userId) },
+      { valid: false }
     ).lean();
     await session.save();
-    res.clearCookie('access_token');
-    res.clearCookie('refresh_token');
+    res.clearCookie("access_token");
+    res.clearCookie("refresh_token");
     return res.sendStatus(201);
   } catch (e) {
     return res.sendStatus(403);
