@@ -57,7 +57,7 @@ export const useAuth = create<IStoreAuth>((set) => ({
 }));
 
 export interface IChatSocket {
-  myRooms: any[];
+  myRooms: any[] | null;
   messages: string[];
   currentRoom: string;
   newMessage: string;
@@ -70,7 +70,7 @@ export interface IChatSocket {
 }
 
 export const useChatSocket = create<IChatSocket>((set) => ({
-  myRooms: [],
+  myRooms: null,
   status: 'offline',
   currentRoom: '',
   currentRoomName: '',
