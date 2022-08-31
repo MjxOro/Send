@@ -42,7 +42,7 @@ router.post("/logout", async (req: Request, res: Response) => {
   try {
     const userId = req.body._id;
     await Sessions.findOneAndUpdate(
-      { _id: String(userId) },
+      { userId: String(userId) },
       { valid: false }
     ).lean();
     res.cookie("acess_token", {expires: Date.now()});
