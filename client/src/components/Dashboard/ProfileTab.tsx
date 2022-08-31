@@ -21,7 +21,6 @@ const ProfileTab = () => {
       await axios.post(
         `${process.env.REACT_APP_API_HOST}/api/logout`,
         currentUser,
-        { withCredentials: true }
       );
       useAuth.setState({ currentUser: null });
       useAuth.setState({ isLoading: false });
