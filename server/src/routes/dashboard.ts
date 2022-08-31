@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
-import User, { IUser } from "../models/User";
+import User from "../models/User";
 import Member from "../models/Member";
-import Sessions, { ISessions } from "../models/Sessions";
+import Sessions from "../models/Sessions";
 
 const router = express.Router();
 
@@ -41,15 +41,15 @@ router.put("/offline", async (req: Request, res: Response) => {
 router.post("/logout", async (req: Request, res: Response) => {
   try {
     const userId = req.body._id;
-    const session: ISessions = await Sessions.findOneAndUpdate(
+    await Sessions.findOneAndUpdate(
       { _id: String(userId) },
       { valid: false }
     ).lean();
-    await session.save();
     res.cookie("acess_token", {expires: Date.now()});
     res.cookie("refresh_tokene", {expires: Date.now()});
     return res.sendStatus(201);
   } catch (e) {
+    console.log(e);
     return res.sendStatus(403);
   }
 });

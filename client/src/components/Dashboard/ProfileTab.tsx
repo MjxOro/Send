@@ -18,10 +18,11 @@ const ProfileTab = () => {
   const left = true;
   const handleLogout = async () => {
     try {
-      await axios.post(
-        `${process.env.REACT_APP_API_HOST}/api/logout`,
-        currentUser,
-      );
+    await axios({
+      method: "post",
+      url: `${process.env.REACT_APP_API_HOST}/api/logout`,
+      data: currentUser
+    })
       useAuth.setState({ currentUser: null });
       useAuth.setState({ isLoading: false });
       setLocation('/');
